@@ -102,7 +102,7 @@ execute "create-database-user" do
   code = <<-EOH
 psql -U postgres -c "select * from pg_user where usename='#{node['donordb']['dbuser']}'" | grep -c #{node['donordb']['dbuser']}
   EOH
-  command "createuser -sw #{node['donordb']['dbuser']}"
+  command "ssh -t 'sudo -u createuser -sw #{node['donordb']['dbuser']}'"
   not_if code
 end
 
@@ -111,7 +111,7 @@ execute "create-database" do
   exists = <<-EOH
 psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb']['dbname']}'" | grep -c #{node['donordb']['dbname']}
   EOH
-  command "createdb -O #{node['donordb']['dbuser']} -E utf8 -T template0 #{node['donordb']['dbname']}"
+  command "ssh -t 'sudo -u postgres createdb -O #{node['donordb']['dbuser']} -E utf8 -T template0 #{node['donordb']['dbname']}'"
   not_if exists
 end
 
