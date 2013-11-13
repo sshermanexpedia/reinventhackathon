@@ -62,7 +62,7 @@ execute "start_postgres " do
   command "service postgresql start"
 end
 
-execute "Install webapp" do
+script "Install webapp" do
   code = <<-EOH
     wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war'
     mkdir /var/lib/tomcat7/webapps/donorschoose
