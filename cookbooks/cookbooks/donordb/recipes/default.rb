@@ -53,9 +53,13 @@ end
 
 
 execute "init_postgres " do
-  command "service postgres initdb"
+  command "service postgresql initdb"
 end
 
+
+execute "start_postgres " do
+  command "service postgresql start"
+end
 
 
 execute "create-database-user" do
