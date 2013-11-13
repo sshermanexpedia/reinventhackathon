@@ -57,6 +57,12 @@ execute "init_postgres " do
   command "service postgresql initdb"
 end
 
+cookbook_file "/var/lib/pgsql9/data/pg_hba.conf" do
+  source "pg_hba.conf"
+  owner "postgres"
+  group "postgres"
+  mode "700"
+end
 
 execute "start_postgres " do
   command "service postgresql start"
