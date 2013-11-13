@@ -8,6 +8,7 @@ yum_package "tomcat7" do
   action :install
 end
 
+
 directory "/opt/donor" do
   owner "root"
   group "root"
@@ -80,11 +81,11 @@ psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb'][
 end
 
 
-execute  "ingest" do
-  command "sh ingest.sh"
-  cwd "/opt/donor/data"
-  not_if { File.exists?("/opt/donor/data/ingest.sql")}
-end
+#execute  "ingest" do
+#  command "sh ingest.sh"
+#  cwd "/opt/donor/data"
+#  not_if { File.exists?("/opt/donor/data/ingest.sql")}
+#end
 
 
 execute "import_data" do
@@ -93,10 +94,11 @@ end
 
 execute "Install webapp" do
   code = <<-EOH
-    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war' 
+    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war'
     mkdir /var/lib/tomcat7/webapps/donorschoose
     unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
     service tomcat7 restart
   EOH
 end
+
 
