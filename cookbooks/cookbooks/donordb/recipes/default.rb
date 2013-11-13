@@ -1,3 +1,5 @@
+include_recipe "s3cmd"
+
 yum_package "postgresql-server" do
     action :install
 end
