@@ -83,6 +83,12 @@ end
 execute  "ingest" do
   command "sh ingest.sh"
   cwd "/opt/donor/data"
+  not_if { File.exists?("/opt/donor/data/ingest.sql")}
+end
+
+
+execute "import_data" do
+  command "sudo  -u postgres -d donorschoose -f /opt/donor/data/load-script.sql "
 end
 
 execute "Install webapp" do
