@@ -63,26 +63,34 @@ execute "start_postgres " do
 end
 
 script "Install webapp" do
+  interpreter "bash"
+  user "root"
   code  <<-EOH
-    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war'
+  wget https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war
   EOH
 end
 
 script "mkdir" do
+  interpreter "bash"
+  user "root"
   code  <<-EOH
-    mkdir /var/lib/tomcat7/webapps/donorschoose
+  mkdir /var/lib/tomcat7/webapps/donorschoose
   EOH
 end
 
 script "unzip " do
+  interpreter "bash"
+  user "root"
   code  <<-EOH
-    unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
+  unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
   EOH
 end
     
 script "service restart " do
+  interpreter "bash"
+  user "root"
   code  <<-EOH
-    service tomcat7 restart
+  service tomcat7 restart
   EOH
 end
 
