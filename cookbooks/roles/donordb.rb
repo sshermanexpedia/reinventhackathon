@@ -1,3 +1,3 @@
 name        "donodb"
 description "rol donodb "
-run_list    "recipe[donodb]"
+run_list    "recipe[donordb]"
