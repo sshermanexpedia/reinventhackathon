@@ -4,7 +4,10 @@ function goBack()
   window.history.back()
   }
 </script>
+<link rel="stylesheet" type="text/css" href="/donorschoose/css/pivot.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/donorschoose/js/pivot.js"></script>
 <script>
 var myList = ${it.resultsJSON}
 // Builds the HTML Table out of myList json data from Ivy restful service.
@@ -52,5 +55,15 @@ var myList = ${it.resultsJSON}
 <table id="excelDataTable" border="1">
  </table>
 <hr>
+<script type="text/javascript">
+            $(function(){
+                        $("#output").pivotUI(
+        ${it.resultsJSON}
+    );
+             });
+        </script>
+
+        <div id="output" style="margin: 10px;"></div>
+
 </body>
 
