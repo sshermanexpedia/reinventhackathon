@@ -53,32 +53,29 @@ end
 
 
 execute "init_postgres " do
-  command "service postgres initdb"
-  action :nothing
+  command "service postgresql initdb"
 end
 
-execute "create-root-user" do
-  code = <<-EOH
-psql -U postgres -c "select * from pg_user where usename='root'" | grep -c root
-  EOH
-  command "sudo -u postgres createuser -s root"
-  not_if code
+
+execute "start_postgres " do
+  command "service postgresql start"
 end
+
 
 execute "create-database-user" do
   code = <<-EOH
-psql -U postgres -c "select * from pg_user where usename='#{node[:dbuser]}'" | grep -c #{node[:dbuser]}
+psql -U postgres -c "select * from pg_user where usename='#{node['donordb']['dbuser']}'" | grep -c #{node['donordb']['dbuser']}
   EOH
-  command "sudo  -u postgres createuser -sw #{node[:dbuser]}"
+  command "sudo  -u postgres createuser -sw #{node['donordb']['dbuser']}"
   not_if code
 end
 
 
 execute "create-database" do
   exists = <<-EOH
-psql -U postgres -c "select * from pg_database WHERE datname='#{node[:dbname]}'" | grep -c #{node[:dbname]}
+psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb']['dbname']}'" | grep -c #{node['donordb']['dbname']}
   EOH
-  command "sudo -u postgres createdb -O #{node[:dbuser]} -E utf8 -T template0 #{node[:dbname]}"
+  command "sudo -u postgres createdb -O #{node['donordb']['dbuser']} -E utf8 -T template0 #{node['donordb']['dbname']}"
   not_if exists
 end
 
