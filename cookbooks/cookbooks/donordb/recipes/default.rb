@@ -80,7 +80,7 @@ script "unzip " do
   interpreter "bash"
   user "root"
   code  <<-EOH
-  unzip donorschoose.war -d -o /var/lib/tomcat7/webapps/donorschoose
+  unzip donorschoose.war -d  /var/lib/tomcat7/webapps/donorschoose
   EOH
 end
     
