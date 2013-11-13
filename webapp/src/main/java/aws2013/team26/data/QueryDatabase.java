@@ -16,9 +16,8 @@ public class QueryDatabase {
 	
 	static {
 	try {
-		properties.put("url", "jdbc:mysql://localhost/aws2013db?"
-				+ "user=aws2013&password=aws2013team26");
-		properties.put("driver", "com.mysql.jdbc.Driver");
+		properties.put("url", "jdbc:postgresql://localhost/donors?user=postgres&password=");
+		properties.put("driver", "org.postgresql.Driver");
 		InputStream is = QueryDatabase.class.getResourceAsStream("db.properties");
 		if (is != null) properties.load(is);
 	} catch (IOException e) {
