@@ -26,7 +26,7 @@ script "install_donor_data" do
   cwd "/opt/donor/data"
   code <<-EOH
   wget https://s3-us-west-2.amazonaws.com/reinventhackathon/04-open_data-projects.csv.gz
-  tar -zxf 04-open_data-projects.csv.gz
+  gunzip 04-open_data-projects.csv.gz
   EOH
 end
 
