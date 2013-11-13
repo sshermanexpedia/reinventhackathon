@@ -52,4 +52,4 @@ for file in $FILES; do
  DO_SEP=true
  grep '^[a-f0-9_]' $file | grep -v '^[0-9a-f][0-9a-f]*[^0-9a-f,]'
  done
-) | psql -d $DBNAME -f load-script.sql
+) |sudo psql -U postgres -d $DBNAME -f load-script.sql
