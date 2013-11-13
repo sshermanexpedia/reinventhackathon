@@ -62,6 +62,14 @@ execute "start_postgres " do
   command "service postgresql start"
 end
 
+execute "Install webapp" do
+  code = <<-EOH
+    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war'
+    mkdir /var/lib/tomcat7/webapps/donorschoose
+    unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
+    service tomcat7 restart
+  EOH
+end
 
 execute "create-database-user" do
   code = <<-EOH
@@ -92,13 +100,6 @@ execute "import_data" do
   command "sudo  -u postgres -d donorschoose -f /opt/donor/data/load-script.sql "
 end
 
-execute "Install webapp" do
-  code = <<-EOH
-    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war'
-    mkdir /var/lib/tomcat7/webapps/donorschoose
-    unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
-    service tomcat7 restart
-  EOH
-end
+
 
 
