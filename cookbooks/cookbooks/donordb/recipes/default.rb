@@ -8,6 +8,7 @@ yum_package "tomcat7" do
   action :install
 end
 
+
 directory "/opt/donor" do
   owner "root"
   group "root"
@@ -61,6 +62,29 @@ execute "start_postgres " do
   command "service postgresql start"
 end
 
+script "Install webapp" do
+  code = <<-EOH
+    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war'
+  EOH
+end
+
+script "mkdir" do
+  code = <<-EOH
+    mkdir /var/lib/tomcat7/webapps/donorschoose
+  EOH
+end
+
+script "unzip " do
+  code = <<-EOH
+    unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
+  EOH
+end
+    
+script "service restart " do
+  code = <<-EOH
+    service tomcat7 restart
+  EOH
+end
 
 execute "create-database-user" do
   code = <<-EOH
@@ -80,23 +104,21 @@ psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb'][
 end
 
 
-execute  "ingest" do
-  command "sh ingest.sh"
-  cwd "/opt/donor/data"
-  not_if { File.exists?("/opt/donor/data/ingest.sql")}
-end
+#execute  "ingest" do
+#  command "sh ingest.sh"
+#  cwd "/opt/donor/data"
+#  not_if { File.exists?("/opt/donor/data/ingest.sql")}
+#end
 
 
 execute "import_data" do
-  command "sudo  -u postgres -d donorschoose -f /opt/donor/data/load-script.sql "
+  code = <<-EOH
+psql -U postgres -d donorschoose -f /opt/donor/data/load-script.sql
+  EOH
+  command "echo data imported "
+  not_if code
 end
 
-execute "Install webapp" do
-  code = <<-EOH
-    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war' 
-    mkdir /var/lib/tomcat7/webapps/donorschoose
-    unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
-    service tomcat7 restart
-  EOH
-end
+
+
 
