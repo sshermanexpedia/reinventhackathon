@@ -57,12 +57,12 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "log_level :info",
-                                            "log_location STDOUT",
-                                            "file_cache_path \"/var/chef-solo\"",
-                                            "cookbook_path \"/var/chef-solo/cookbooks\"",
-                                            "json_attribs \"/etc/chef/node.json\"",
-                                            "ssl_verify_mode  :verify_none",
+                                            "log_level :info\n",
+                                            "log_location STDOUT\n",
+                                            "file_cache_path \"/var/chef-solo\"\n",
+                                            "cookbook_path \"/var/chef-solo/cookbooks\"\n",
+                                            "json_attribs \"/etc/chef/node.json\"\n",
+                                            "ssl_verify_mode  :verify_none\n",
                                             "recipe_url \"",
                                             {
                                                 "Ref": "RecipeURL"
