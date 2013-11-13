@@ -1,0 +1,89 @@
+body {
+		background: #F5F4EF;
+		color: #000305;
+		font-size: 87.5%; /* Base font size: 14px */
+		font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+		line-height: 1.429;
+		margin: 0;
+		padding: 0;
+		text-align: left;
+	}
+	
+#sql-form {  
+    background-color:#F2F7F9;  
+    width:465px;  
+    padding:20px;  
+    margin: 50px auto;      
+    border: 6px solid #8FB5C1;  
+    -moz-border-radius:15px;  
+    -webkit-border-radius:15px;  
+    border-radius:15px;  
+    position:relative;  
+}
+#sql-form h1 {  
+    font-size:32px;  
+}  
+  
+#sql-form h2 {  
+    margin-bottom:15px;  
+    font-style:italic;  
+    font-weight:normal;  
+}
+
+#sql-form input,   
+#sql-form textarea,   
+#sql-form label {  
+    font-size:15px;  
+    margin-bottom:2px;  
+}  
+  
+#sql-form input,   
+#sql-form textarea {  
+    width:450px;  
+    border: 1px solid #CEE1E8;  
+    margin-bottom:20px;  
+    padding:4px;  
+}  
+  
+#sql-form input:focus,   
+#sql-form textarea:focus {  
+    border: 1px solid #AFCDD8;  
+    background-color: #EBF2F4;  
+}  
+  
+#sql-form textarea {  
+    height:150px;  
+    resize: none;  
+}  
+  
+#sql-form label {  
+    display:block;  
+}  
+  
+#sql-form .required {  
+    font-weight:bold;  
+    color:#F00;      
+}  
+  
+#sql-form #submit-button {  
+    width: 100px;  
+    background-color:#333;  
+    color:#FFF;  
+    border:none;  
+    display:block;  
+    float:rightright;  
+    margin-bottom:0px;  
+    margin-right:6px;  
+    background-color:#8FB5C1;  
+    -moz-border-radius:8px;  
+}  
+  
+#sql-form #submit-button:hover {  
+    background-color: #A6CFDD;  
+}  
+  
+#sql-form #submit-button:active {  
+    position:relative;  
+    top:1px;  
+}  
+  
