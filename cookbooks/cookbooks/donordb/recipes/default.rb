@@ -35,6 +35,9 @@ script "install_donor_data" do
   gunzip 05-open_data-resources.csv.gz
   wget https://s3-us-west-2.amazonaws.com/reinventhackathon/02-open_data-essays.csv.gz
   gunzip 02-open_data-essays.csv.gz
+  wget http://developer.donorschoose.org/the-data/data-schema/donorschoose-org-1apr2011-v1-load-script.sh?attredirects=0&d=1
+  wget http://developer.donorschoose.org/the-data/data-schema/donorschoose-org-1apr2011-v1-load-script.sql?attredirects=0&d=1
+  wget http://developer.donorschoose.org/the-data/data-schema/donorschoose-org-1apr2011-v1-normalize-script.sql?attredirects=0&d=1
   EOH
 end
 
