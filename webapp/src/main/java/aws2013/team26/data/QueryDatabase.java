@@ -1,21 +1,38 @@
 package aws2013.team26.data;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class QueryDatabase {
+	private final static Properties properties = new Properties();
 
+	
+	static {
+	try {
+		properties.put("url", "jdbc:mysql://localhost/aws2013db?"
+				+ "user=aws2013&password=aws2013team26");
+		properties.put("driver", "com.mysql.jdbc.Driver");
+		InputStream is = QueryDatabase.class.getResourceAsStream("db.properties");
+		if (is != null) properties.load(is);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	
+	}
+	
 	public String executeQuery(String query) throws SQLException {
 		try {
 			// This will load the MySQL driver, each DB has its own driver
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(properties.getProperty("driver"));
 			// Setup the connection with the DB
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/aws2013db?"
-											+ "user=aws2013&password=aws2013team26");
+			Connection connect = DriverManager.getConnection(properties.getProperty("url"));
 			// Statements allow to issue SQL queries to the database
 			Statement statement = connect.createStatement();
 		      // Result set get the result of the SQL query
