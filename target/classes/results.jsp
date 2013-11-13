@@ -1,1 +1,0 @@
-Welcome ${it.resultsJSON}
