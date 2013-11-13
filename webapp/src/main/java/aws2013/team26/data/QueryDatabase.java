@@ -20,6 +20,7 @@ public class QueryDatabase {
 		properties.put("driver", "org.postgresql.Driver");
 		InputStream is = QueryDatabase.class.getResourceAsStream("db.properties");
 		if (is != null) properties.load(is);
+		System.out.println(properties);
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
