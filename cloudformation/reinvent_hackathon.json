@@ -1,0 +1,156 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    
+    "Parameters": {
+    	"RecipeURL": {
+    		"Type" : "String",
+    		"Default" : "https://github.com/sshermanexpedia/reinventhackathon/raw/master/cookbooks/chef-solo.tar.gz",
+    		"Description" : "Chef solo cookbooks"
+    	},
+    	"KeyName": {
+    		"Type" : "String",
+    		"Default" : "reinvent",
+    		"Description" : "key pair"    	
+    	},
+    	"InstanceType": {
+    		"Type" : "String",
+    		"Default" : "t1.micro",
+    		"Description" : "Instance size"    	
+    	},
+    	"SecretKey" : {
+			"Description" : "Secret key with permissions to create stack",
+			"Type" : "String",
+			"Default" : "ii9xZN97inHJ8a/7q3q8WKByi3jkQf+QASLDEoJb"
+		},
+		"AccessKey" : {
+			"Description" : "Access Key of user with permissions to create stack",
+			"Type" : "String",
+			"Default" : "AKIAIR2QTFOU6YHCJL7Q"
+		}
+
+    },
+    "Resources" : {
+    
+        "PostgresInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Metadata": {
+                "AWS::CloudFormation::Init": {
+                    "config": {
+                        "packages": {
+                            "rubygems": {
+                                "chef": [
+                                    "11.8.0"
+                                ]
+                            },
+                            "yum": {
+                                "gcc-c++": [],
+                                "ruby-devel": [],
+                                "make": [],
+                                "autoconf": [],
+                                "automake": [],
+                                "rubygems": []
+                            }
+                        },
+                        "files": {
+                            "/etc/chef/solo.rb": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "log_level :info",
+                                            "log_location STDOUT",
+                                            "file_cache_path \"/var/chef-solo\"",
+                                            "cookbook_path \"/var/chef-solo/cookbooks\"",
+                                            "json_attribs \"/etc/chef/node.json\"",
+                                            "ssl_verify_mode  :verify_none",
+                                            "recipe_url \"",
+                                            {
+                                                "Ref": "RecipeURL"
+                                            },
+                                            "\"\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000644",
+                                "owner": "root",
+                                "group": "wheel"
+                            },
+                            "/etc/chef/node.json": {
+                                "content": {
+                                    "name": "donordb",
+                                    "default_attributes": {},
+                                    "override_attributes": {},
+                                    "description": "Install db and load data",
+                                    "run_list": [
+                                        "role[donordb]"
+                                    ]
+                                },
+                                "mode": "000644",
+                                "owner": "root",
+                                "group": "wheel"
+                            }
+                        }
+                    }
+                }
+            },
+            "Properties": {
+                "SecurityGroups": [
+                    {
+                        "Ref": "DonorSecurityGroup"
+                    }
+                ],
+                "ImageId": "ami-35792c5c",
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "yum update -y aws-cfn-bootstrap\n",
+                                "/opt/aws/bin/cfn-init -s ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                " -r PostgresInstance ",
+                                "  --access-key ",
+                                {
+                                    "Ref": "AccessKey"
+                                },
+                                "  --secret-key ",
+                                {
+                                    "Ref": "SecretKey"
+                                },
+                                "  --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                " && ",
+                                " chef-solo\n"                            
+                            ]
+                        ]
+                    }
+                },
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                }
+            }
+        },
+        "DonorSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+             "Properties": {            
+                 "GroupDescription": "Allow all access",
+                 "SecurityGroupIngress": [
+                     {
+                         "IpProtocol": "tcp",
+                         "FromPort": "0",
+                         "ToPort": "65535",
+                         "CidrIp": "0.0.0.0/0"
+                     }             
+                 ]
+             }
+         }
+    }
+}
