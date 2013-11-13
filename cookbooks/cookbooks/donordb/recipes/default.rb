@@ -101,6 +101,21 @@ cookbook_file "/opt/donor/data/create_db.sh" do
   group "postgres"
   mode "700"
 end
+
+cookbook_file "/opt/donor/data/alter_user.sql" do
+  source "alter_user.sql"
+  owner "postgres"
+  group "postgres"
+  mode "700"
+end
+
+cookbook_file "/opt/donor/data/alter_user.sh" do
+  source "alter_user.sh"
+  owner "postgres"
+  group "postgres"
+  mode "700"
+end
+
 #execute "create-database-user" do
 #  code = <<-EOH
 #psql -U postgres -c "select * from pg_user where usename='#{node['donordb']['dbuser']}'" | grep -c #{node['donordb']['dbuser']}
@@ -119,6 +134,11 @@ end
 #end
 execute  "create_db" do
   command "sh create_db.sh"
+  cwd "/opt/donor/data"
+end
+
+execute  "alter_user" do
+  command "sh alter_user.sh"
   cwd "/opt/donor/data"
 end
 

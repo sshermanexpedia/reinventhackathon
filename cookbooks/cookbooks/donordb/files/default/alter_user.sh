@@ -1,0 +1,1 @@
+psql -U postgres -f alter_user.sql
