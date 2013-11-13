@@ -57,6 +57,12 @@ execute "init_postgres " do
   command "service postgresql initdb"
 end
 
+cookbook_file "/var/lib/pgsql9/data/pg_hba.conf" do
+  source "pg_hba.conf"
+  owner "postgres"
+  group "postgres"
+  mode "700"
+end
 
 execute "start_postgres " do
   command "service postgresql start"
@@ -110,19 +116,9 @@ psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb'][
 end
 
 
-#execute  "ingest" do
-#  command "sh ingest.sh"
-#  cwd "/opt/donor/data"
-#  not_if { File.exists?("/opt/donor/data/ingest.sql")}
-#end
-
-
-execute "import_data" do
-  code = <<-EOH
-psql -U postgres -d donorschoose -f /opt/donor/data/load-script.sql
-  EOH
-  command "echo data imported "
-  not_if code
+execute  "ingest" do
+  command "sh ingest.sh"
+  cwd "/opt/donor/data"
 end
 
 
