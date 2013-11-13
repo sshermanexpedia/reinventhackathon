@@ -57,13 +57,7 @@ execute "init_postgres " do
   action :nothing
 end
 
-execute "create-root-user" do
-  code = <<-EOH
-psql -U postgres -c "select * from pg_user where usename='root'" | grep -c root
-  EOH
-  command "sudo -u postgres createuser -s root"
-  not_if code
-end
+
 
 execute "create-database-user" do
   code = <<-EOH
