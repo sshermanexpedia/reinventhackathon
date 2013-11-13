@@ -97,7 +97,11 @@ end
 
 
 execute "import_data" do
-  command "sudo  -u postgres -d donorschoose -f /opt/donor/data/load-script.sql "
+  code = <<-EOH
+psql -U postgres -d donorschoose -f /opt/donor/data/load-script.sql
+  EOH
+  command "echo data imported "
+  not_if code
 end
 
 
