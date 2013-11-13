@@ -8,6 +8,12 @@ yum_package "tomcat7" do
   action :install
 end
 
+directory "/opt/donor" do
+  owner "root"
+  group "root"
+  mode "755"
+end
+
 directory "/opt/donor/data" do
   owner "root"
   group "root"
