@@ -1,3 +1,3 @@
-yum_package "postgresql93-server" do
+yum_package "postgresql-server" do
     action :install
 end
