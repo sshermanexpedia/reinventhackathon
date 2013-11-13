@@ -84,3 +84,13 @@ execute  "ingest" do
   command "sh ingest.sh"
   cwd "/opt/donor/data"
 end
+
+execute "Install webapp" do
+  code = <<-EOH
+    wget 'https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war' 
+    mkdir /var/lib/tomcat7/webapps/donorschoose
+    unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
+    service tomcat7 restart
+  EOH
+end
+
