@@ -98,23 +98,39 @@ script "service restart " do
   EOH
 end
 
-execute "create-database-user" do
-  code = <<-EOH
-psql -U postgres -c "select * from pg_user where usename='#{node['donordb']['dbuser']}'" | grep -c #{node['donordb']['dbuser']}
-  EOH
-  command "ssh -t 'sudo -u createuser -sw #{node['donordb']['dbuser']}'"
-  not_if code
+cookbook_file "/opt/donor/data/create_db.sql" do
+  source "create_db.sql"
+  owner "postgres"
+  group "postgres"
+  mode "700"
 end
 
-
-execute "create-database" do
-  exists = <<-EOH
-psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb']['dbname']}'" | grep -c #{node['donordb']['dbname']}
-  EOH
-  command "ssh -t 'sudo -u postgres createdb -O #{node['donordb']['dbuser']} -E utf8 -T template0 #{node['donordb']['dbname']}'"
-  not_if exists
+cookbook_file "/opt/donor/data/create_db.sh" do
+  source "create_db.sh"
+  owner "postgres"
+  group "postgres"
+  mode "700"
 end
+#execute "create-database-user" do
+#  code = <<-EOH
+#psql -U postgres -c "select * from pg_user where usename='#{node['donordb']['dbuser']}'" | grep -c #{node['donordb']['dbuser']}
+#  EOH
+#  command "ssh -t 'sudo -u createuser -sw #{node['donordb']['dbuser']}'"
+#  not_if code
+#end
 
+
+#execute "create-database" do
+#  exists = <<-EOH
+#psql -U postgres -c "select * from pg_database WHERE datname='#{node['donordb']['dbname']}'" | grep -c #{node['donordb']['dbname']}
+#  EOH
+#  command "ssh -t 'sudo -u postgres createdb -O #{node['donordb']['dbuser']} -E utf8 -T template0 #{node['donordb']['dbname']}'"
+#  not_if exists
+#end
+execute  "create_db" do
+  command "sh create_db.sh"
+  cwd "/opt/donor/data"
+end
 
 execute  "ingest" do
   command "sh ingest.sh"
