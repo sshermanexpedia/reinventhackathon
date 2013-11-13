@@ -16,7 +16,7 @@ public class QueryDatabase {
 	
 	static {
 	try {
-		properties.put("url", "jdbc:postgresql://localhost/donors?user=postgres&password=");
+		properties.put("url", "jdbc:postgresql://localhost/donors?user=postgres&password=postgres");
 		properties.put("driver", "org.postgresql.Driver");
 		InputStream is = QueryDatabase.class.getResourceAsStream("db.properties");
 		if (is != null) properties.load(is);
