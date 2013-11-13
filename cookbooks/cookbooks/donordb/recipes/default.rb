@@ -59,8 +59,8 @@ end
 
 cookbook_file "/var/lib/pgsql9/data/pg_hba.conf" do
   source "pg_hba.conf"
-  owner "root"
-  group "root"
+  owner "postgres"
+  group "postgres"
   mode "700"
 end
 
