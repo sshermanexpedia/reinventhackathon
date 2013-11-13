@@ -70,19 +70,17 @@ script "Install webapp" do
   EOH
 end
 
-script "mkdir" do
-  interpreter "bash"
-  user "root"
-  code  <<-EOH
-  mkdir /var/lib/tomcat7/webapps/donorschoose
-  EOH
+directory "/var/lib/tomcat7/webapps/donorschoose" do
+  owner "tomcat"
+  group "tomcat"
+  mode "755"
 end
 
 script "unzip " do
   interpreter "bash"
   user "root"
   code  <<-EOH
-  unzip donorschoose.war -d /var/lib/tomcat7/webapps/donorschoose
+  unzip donorschoose.war -d  /var/lib/tomcat7/webapps/donorschoose
   EOH
 end
     
