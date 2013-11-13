@@ -8,13 +8,14 @@ yum_package "tomcat7" do
   action :install
 end
 
-script "Install webapp" do
-  interpreter "bash"
-  user "root"
-  code  <<-EOH
-  wget https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war
-  EOH
+
+directory "/var/lib/tomcat7/webapps/donorschoose" do
+  owner "tomcat"
+  group "tomcat"
+  mode "755"
 end
+
+
 
 directory "/opt/donor" do
   owner "root"
@@ -29,19 +30,6 @@ directory "/opt/donor/data" do
 end
 
 
-cookbook_file "/opt/donor/data/import_donor_data.sh" do
-  source "import_donor_data.sh"
-  owner "root"
-  group "root"
-  mode "700"
-  not_if { File.exists?("/opt/donor/data/import_donor_data.sh")}
-end
-
-execute  "import_data" do
-  command "sh import_donor_data.sh"
-  cwd "/opt/donor/data"
-  not_if { File.exists?("/opt/donor/data/import_donor_data.sh")}
-end
 
 cookbook_file "/opt/donor/data/ingest.sh" do
   source "ingest.sh"
@@ -76,11 +64,12 @@ execute "start_postgres " do
 end
 
 
-
-directory "/var/lib/tomcat7/webapps/donorschoose" do
-  owner "tomcat"
-  group "tomcat"
-  mode "755"
+script "Install webapp" do
+  interpreter "bash"
+  user "root"
+  code  <<-EOH
+  wget https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war
+  EOH
 end
 
 script "unzip " do
