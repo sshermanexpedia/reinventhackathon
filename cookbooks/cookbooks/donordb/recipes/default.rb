@@ -2,6 +2,7 @@ include_recipe "s3cmd"
 
 yum_package "postgresql-server" do
     action :install
+    notifies :restart ,"service[init_postgres]"
 end
 
 yum_package "tomcat7" do
@@ -54,7 +55,6 @@ end
 
 execute "init_postgres " do
   command "service postgres initdb"
-  action :nothing
 end
 
 
