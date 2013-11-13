@@ -8,6 +8,13 @@ yum_package "tomcat7" do
   action :install
 end
 
+script "Install webapp" do
+  interpreter "bash"
+  user "root"
+  code  <<-EOH
+  wget https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war
+  EOH
+end
 
 directory "/opt/donor" do
   owner "root"
@@ -68,13 +75,7 @@ execute "start_postgres " do
   command "service postgresql start"
 end
 
-script "Install webapp" do
-  interpreter "bash"
-  user "root"
-  code  <<-EOH
-  wget https://github.com/sshermanexpedia/reinventhackathon/raw/master/webapp/donorschoose.war
-  EOH
-end
+
 
 directory "/var/lib/tomcat7/webapps/donorschoose" do
   owner "tomcat"
