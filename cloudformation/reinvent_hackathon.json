@@ -20,12 +20,12 @@
     	"SecretKey" : {
 			"Description" : "Secret key with permissions to create stack",
 			"Type" : "String",
-			"Default" : "ii9xZN97inHJ8a/7q3q8WKByi3jkQf+QASLDEoJb"
+			"Default" : ""
 		},
 		"AccessKey" : {
 			"Description" : "Access Key of user with permissions to create stack",
 			"Type" : "String",
-			"Default" : "AKIAIR2QTFOU6YHCJL7Q"
+			"Default" : ""
 		}
 
     },
